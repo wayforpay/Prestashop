@@ -3,11 +3,9 @@
 <form id="wayforpay_payment" method="post" action="{$url}">
     {foreach from=$fields  key=key item=field}
         {if $field|is_array}
-            {foreach from=$field  key=k item=v}
-                <br />{$key}[]:<input type="text" name="{$key}[]" value="{$v}" />
-            {/foreach}
+            {foreach from=$field  key=k item=v}<input type="hidden" name="{$key}[]" value="{$v}" />{/foreach}
         {else}
-            <br />{$key}:<input type="text" name="{$key}" value="{$field}" />
+			<input type="hidden" name="{$key}" value="{$field}" />
         {/if}
     {/foreach}
 
