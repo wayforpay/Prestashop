@@ -36,16 +36,11 @@ class WayforpayRedirectModuleFrontController extends ModuleFrontController
         $option['merchantAuthType'] = 'simpleSignature';
         $option['merchantDomainName'] = $_SERVER['HTTP_HOST'];
         $option['merchantTransactionSecureType'] = 'AUTO';
-        $option['currency'] = 'UAH';
+        $option['currency'] = $payCurrency;
         $option['amount'] = $total;
         $option['language'] = $language;
         $option['serviceUrl'] = $link->getModuleLink('wayforpay', 'callback');
         $option['returnUrl'] = $link->getModuleLink('wayforpay', 'result');
-
-        if ($payCurrency != 'UAH') {
-            $option['alternativeCurrency'] = $payCurrency;
-            $option['alternativeAmount'] = $total;
-        }
 
         $productNames = array();
         $productPrices = array();
