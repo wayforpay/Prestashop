@@ -13,5 +13,5 @@
 </form>
 
 <script type="text/javascript">
-	//$('#wayforpay_payment').submit();
+	$('#wayforpay_payment').submit();
 </script>
