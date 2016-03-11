@@ -47,7 +47,7 @@ class WayforpayRedirectModuleFrontController extends ModuleFrontController
         $productQty = array();
 
         foreach ($cart->getProducts() as $product) {
-            $productNames[] = $product['name'];
+            $productNames[] = str_replace(["'", '"', '&#39;'], ['', '', ''], htmlspecialchars_decode($product['name']));
             $productPrices[] = $product['total_wt'];
             $productQty[] = $product['quantity'];
         }
