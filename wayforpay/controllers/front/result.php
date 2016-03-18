@@ -2,6 +2,8 @@
 
 require_once(dirname(__FILE__) . '../../../wayforpay.php');
 require_once(dirname(__FILE__) . '../../../wayforpay.cls.php');
+require_once(dirname(__FILE__) . '../../../../classes/order/Order.php');
+require_once(dirname(__FILE__) . '../../../../classes/order/OrderHistory.php');
 
 class WayforpayResultModuleFrontController extends ModuleFrontController
 {
@@ -34,7 +36,7 @@ class WayforpayResultModuleFrontController extends ModuleFrontController
         if (empty($this->errors)) {
 
             list($orderId,) = explode(WayForPayCls::ORDER_SEPARATOR, $data['orderReference']);
-            $history = new OrderHistory();
+            $history = new OrderHistoryCore();
             $history->id_order = $orderId;
             $history->changeIdOrderState((int)Configuration::get('PS_OS_PAYMENT'), $orderId);
             $history->addWithemail(true, array(
