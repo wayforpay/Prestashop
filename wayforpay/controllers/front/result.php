@@ -1,9 +1,9 @@
 <?php
 
-require_once(dirname(__FILE__) . '../../../wayforpay.php');
-require_once(dirname(__FILE__) . '../../../wayforpay.cls.php');
-require_once(dirname(__FILE__) . '../../../../classes/order/Order.php');
-require_once(dirname(__FILE__) . '../../../../classes/order/OrderHistory.php');
+require_once(dirname(__FILE__) . '/../../../wayforpay.php');
+require_once(dirname(__FILE__) . '/../../../wayforpay.cls.php');
+require_once(dirname(__FILE__) . '/../../../../classes/order/Order.php');
+require_once(dirname(__FILE__) . '/../../../../classes/order/OrderHistory.php');
 
 class WayforpayResultModuleFrontController extends ModuleFrontController
 {
