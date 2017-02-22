@@ -31,6 +31,7 @@ class WayforpayRedirectModuleFrontController extends ModuleFrontController
 
 
         $option = array();
+        @$option['wfp_pay_plg'] = 'PrestaShop '._PS_VERSION_;
         $option['merchantAccount'] = $w4p->getOption('merchant');
         $option['orderDate'] = strtotime($cart->date_add);
         $option['merchantAuthType'] = 'simpleSignature';
