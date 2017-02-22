@@ -32,15 +32,15 @@ class WayforpayResultModuleFrontController extends ModuleFrontController
         }
 
         if (empty($this->errors)) {
-
-            list($orderId,) = explode(WayForPayCls::ORDER_SEPARATOR, $data['orderReference']);
-            $history = new OrderHistory();
-            $history->id_order = $orderId;
-            $history->changeIdOrderState((int)Configuration::get('PS_OS_PAYMENT'), $orderId);
-            $history->addWithemail(true, array(
-                'order_name' => $orderId
-            ));
-
+//
+//            list($orderId,) = explode(WayForPayCls::ORDER_SEPARATOR, $data['orderReference']);
+//            $history = new OrderHistory();
+//            $history->id_order = $orderId;
+//            $history->changeIdOrderState((int)Configuration::get('PS_OS_PAYMENT'), $orderId);
+//            $history->addWithemail(true, array(
+//                'order_name' => $orderId
+//            ));
+//
             return Tools::redirect('index.php?controller=order-confirmation&id_cart=' . $order->id_cart . '&id_module=' . $this->module->id . '&id_order=' . $this->module->currentOrder);
         }
 
