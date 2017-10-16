@@ -1,4 +1,4 @@
-Модуль WayForPay для Prestashop 1.6.х
+Модуль WayForPay для Prestashop 1.7.х
 =========
 
 #Для установки необходимо : 
