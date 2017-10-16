@@ -28,6 +28,6 @@
 
     <a href="{$link->getModuleLink('wayforpay', 'redirect', ['id_cart' => {$id}])}" title="{l s='Pay wayforpay' mod='wayforpay'}">
         <img src="{$this_path}img/w4p.png" rel='wayforpay'/>
-        {$this_description}
     </a>
+    {$this_description}
 </p>

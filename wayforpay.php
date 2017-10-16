@@ -1,5 +1,11 @@
 <?php
 
+use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
+
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class Wayforpay extends PaymentModule
 {
     private $settingsList = array(
@@ -13,6 +19,8 @@ class Wayforpay extends PaymentModule
         $this->tab = 'payments_gateways';
         $this->version = '1.0';
         $this->author = 'WayForPay';
+        $this->controllers = array('callback', 'redirect', 'result');
+        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
 
         parent::__construct();
         $this->displayName = $this->l('Платежи WayForPay');
@@ -22,7 +30,7 @@ class Wayforpay extends PaymentModule
 
     public function install()
     {
-        if (!parent::install() OR !$this->registerHook('payment')) {
+        if (!parent::install() || !$this->registerHook('paymentOptions') || !$this->registerHook('paymentReturn')) {
             return false;
         }
         return true;
@@ -112,25 +120,53 @@ class Wayforpay extends PaymentModule
             Configuration::updateValue('WAYFORPAY_MERCHANT', Tools::getValue('merchant'));
             Configuration::updateValue('WAYFORPAY_SECRET_KEY', Tools::getValue('secret_key'));
         }
+       // TODO right path to ok.gif
         $this->_html .= '<div class="conf confirm"><img src="../img/admin/ok.gif" alt="' . $this->l('ok') . '" /> ' . $this->l('Settings updated') . '</div>';
     }
 
     # Display
 
-    public function hookPayment($params)
+//    public function hookPayment($params)
+//    {
+//        if (!$this->active) return;
+//        if (!$this->_checkCurrency($params['cart'])) return;
+//
+//        global $smarty;
+//        $smarty->assign(array(
+//            'this_path' => $this->_path,
+//            'id' => (int)$params['cart']->id,
+//            'this_path_ssl' => Tools::getShopDomainSsl(true, true) . __PS_BASE_URI__ . 'modules/' . $this->name . '/',
+//            'this_description' => 'Оплата через систему WayForPay'
+//        ));
+//
+//        return $this->display(__FILE__, 'wayforpay.tpl');
+//    }
+
+    public function hookPaymentOptions($params)
     {
-        if (!$this->active) return;
+//        error_reporting(E_ALL);
+//        ini_set('display_errors', 1);
+
+        if (!$this->active)	return;
         if (!$this->_checkCurrency($params['cart'])) return;
 
-        global $smarty;
-        $smarty->assign(array(
+        $this->smarty->assign(array(
             'this_path' => $this->_path,
+            'this_path_ssl' => Tools::getShopDomainSsl(true, true).__PS_BASE_URI__.'modules/'.$this->name.'/',
+            'this_description' => 'Оплата через систему WayForPay',
             'id' => (int)$params['cart']->id,
-            'this_path_ssl' => Tools::getShopDomainSsl(true, true) . __PS_BASE_URI__ . 'modules/' . $this->name . '/',
-            'this_description' => 'Оплата через систему WayForPay'
         ));
 
-        return $this->display(__FILE__, 'wayforpay.tpl');
+        $newOption = new PaymentOption();
+        $newOption->setCallToActionText($this->trans('Оплата через систему WayForPay', array(), 'Modules.WayForPay.Shop'))
+            ->setAction($this->context->link->getModuleLink($this->name, 'validation', array(), true))
+            ->setAdditionalInformation($this->fetch('module:wayforpay/wayforpay.tpl'));
+
+        $payment_options = [
+            $newOption,
+        ];
+
+        return $payment_options;
     }
 
     private function _checkCurrency($cart)
